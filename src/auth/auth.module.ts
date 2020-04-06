@@ -3,10 +3,11 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { GoogleStrategy } from './google.strategy';
 import { JwtStrategy } from './jwt.strategy';
-import { ConfigModule } from '@nestjs/config';
+import { OAuth2ConfigModule } from './../config/auth/configuration.module';
 
 @Module({
+  imports: [OAuth2ConfigModule],
   controllers: [AuthController],
-  providers: [AuthService, GoogleStrategy, JwtStrategy],  
+  providers: [AuthService, GoogleStrategy, JwtStrategy],
 })
 export class AuthModule {}
