@@ -27,3 +27,7 @@ CI:
 # Add 'repo' label to any root file changes
 repo:
   - ./*
+  
+# Add 'repo' label to any root file changes
+any:
+  - ./**
