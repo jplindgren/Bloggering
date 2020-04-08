@@ -1,21 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty } from 'class-validator';
 import { Entity, Column, PrimaryGeneratedColumn  } from 'typeorm';
 
-
-export const SEED_BLOG_POSTS = [{
-    id: 1,
-    authorId: 'xxx',
-    title: 'Build a NodeJS App with Typescript',
-    content: 'Whats wrong with Javascript?'
-  }, {
-    id: 2,
-    authorId: 'yyy',
-    title: 'Dont build a NodeJS App with Typescript',
-    content: 'Whats wrong with Typescript?'
-  }];
-  
 @Entity()
-export class Post {
+export class Post {    
+    constructor(id: number, authorId: string, title: string, content:string) {
+        this.id = id;
+        this.authorId = authorId;
+        this.title = title;
+        this.content = content;
+    }
+
     @ApiProperty() // used to generate Swagger documentation that `Post` model contains id of type number
     id: number;
 
@@ -27,4 +22,14 @@ export class Post {
 
     @ApiProperty()
     content: string;
+}
+
+export class PostDto{
+    @ApiProperty()
+    @IsNotEmpty()
+    title: string
+
+    @ApiProperty()
+    @IsNotEmpty()
+    content: string
 }
