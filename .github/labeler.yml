@@ -5,14 +5,13 @@ code:
 
 # Add 'test' label to any change to *.spec.js files within the source dir
 test:
-  - src/**/*.spec.js
+  - ./**/src/*.spec.js
   
 # Add 'config' label to any change to config files within the source dir
 configuration:
-  - src/**/config/*
-  - ./package.json
-  - ./tsconfig.json
-  - ./tsconfig.build.json
+  - ./**/src/config/*
+  - ./*.json
+  - ./.gitignore  
   
 # Add 'doc' label to any change to readme files within the source dir
 documentation:  
@@ -22,5 +21,5 @@ documentation:
 authentication:
   - ./**/auth/*
 
-github_workflow:
-  - ./.github/*
+CI:
+  - ./.github/**/*.yml
