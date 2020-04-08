@@ -1,10 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-/**
- * Service dealing with app config based operations.
- *
- * @class
- */
+
 @Injectable()
 export class OAuth2ConfigService {
   constructor(private configService: ConfigService) {}
