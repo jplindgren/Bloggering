@@ -3,11 +3,7 @@ import { Module } from '@nestjs/common';
 import configuration from './configuration';
 import { OAuth2ConfigService } from './configuration.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-/**
- * Import and provide app configuration related classes.
- *
- * @module
- */
+
 @Module({
   imports: [
     ConfigModule.forRoot({
