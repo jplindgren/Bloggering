@@ -1,7 +1,7 @@
 {
   "rules": {
-    "code": ["*.ts", "*.js""],
-    "configuration": ["*.json", ".gitignore", "./**/src/config/*"],
+    "code": ["*.ts", "*.js"],
+	"configuration": ["*.json", ".gitignore", "./**/src/config/*"],
     "any": "./**"
   }
 }
