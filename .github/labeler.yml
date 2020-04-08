@@ -23,3 +23,7 @@ authentication:
 
 CI:
   - ./.github/**/*.yml
+
+# Add 'repo' label to any root file changes
+repo:
+  - ./*
