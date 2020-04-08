@@ -5,6 +5,8 @@ import { GoogleStrategy } from './google.strategy';
 import { JwtStrategy } from './jwt.strategy';
 import { OAuth2ConfigModule } from './../config/auth/configuration.module';
 
+
+
 @Module({
   imports: [OAuth2ConfigModule],
   controllers: [AuthController],
