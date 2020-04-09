@@ -1,7 +1,7 @@
 {
   "rules": {
     "code": [
-      "*.ts",
+      "./**/src/**/*.ts",
       "*.js"
     ],
     "configuration": [
@@ -9,6 +9,8 @@
       ".gitignore",
       "./**/src/config/*"
     ],
-    "any": "./**"
+    "doc": "./**/README.md",
+    "authentication": "./**/auth/*",
+    "CI" : "./.github/**/*.yml"
   }
 }
