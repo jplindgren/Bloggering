@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 
 @Injectable()
-export class OrmConfigService {
+export class OrmConfigService implements TypeOrmOptionsFactory{
   constructor(private configService: ConfigService) {}
   
-  get getOrmOptions(): TypeOrmModuleOptions {
+  createTypeOrmOptions(): TypeOrmModuleOptions {
     const type: any = this.configService.get<string>('orm.type');
     return {
         type,
@@ -16,13 +16,10 @@ export class OrmConfigService {
         database: this.configService.get<string>('orm.database'),
         port: this.configService.get<number>('orm.port'),
         logging: this.configService.get<boolean>('orm.logging'),
-        entities: this.configService.get<string[]>('orm.entitiesPath'),
-        migrations: this.configService.get<string[]>('orm.migrationPath'),
+        entities: this.configService.get<string[]>('orm.entities'),
+        migrations: this.configService.get<string[]>('orm.migrations'),
         migrationsRun: this.configService.get<boolean>('orm.migrationsRun'),
-        cli: this.configService.get<object>('orm.migrationsRun')
+        cli: this.configService.get<any>('orm.cli')
       };
   } 
 }
-
-const ormConfigServiceInstance = new OrmConfigService(new ConfigService(process.env));
-export { ormConfigServiceInstance };
