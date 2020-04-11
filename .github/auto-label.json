@@ -1,16 +1,16 @@
 {
   "rules": {
     "code": [
-      "./**/src/**/*.ts",
-      "*.js"
+      "src/**/*.ts",
+      "src/**/*.js"
     ],
     "configuration": [
       "*.json",
       ".gitignore",
-      "./**/src/config/*"
+      "src/config/*"
     ],
-    "doc": "./**/README.md",
-    "authentication": "./**/auth/*",
-    "CI" : "./.github/**/*.yml"
+    "doc": "**/README.md",
+    "authentication": "src/**/auth/*",
+    "CI" : ".github/**/*.yml"
   }
 }
