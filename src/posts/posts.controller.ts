@@ -27,7 +27,7 @@ export class PostsController {
     @HttpCode(200)
     @ApiResponse({ status: 200 }) 
     create(@Body() newPost: PostDto, @Req() req) {        
-        const userId = req['user'].thirdPartyId;
+        const userId = req['user'].id;
         const newPostId = this.postsService.createPost(newPost.title, userId ,newPost.content);        
         return {id: newPostId};
     }
