@@ -16,27 +16,27 @@ export class AuthService {
     {        
         try 
         {
-            console.log('profile', profile);
-            const thirdPartyId = profile.id;
             // to register the user using their thirdPartyId (in this case their googleId)
-            let user: User = await User.findByThirdPartyId(thirdPartyId);
+            const thirdPartyId = profile.id;
             
+            let user: User = await User.findByThirdPartyId(thirdPartyId);
             if (!user){
                 user = new User();
                 user.isActive = true;
-                user.email = profile.email;
-                user.name = profile.name;
+                user.email = profile.emails
+                    .filter(x => x.verified)
+                    .map(x => x.value)[0];
+                user.name = profile.displayName;
                 user.thirdPartyId = thirdPartyId;
                 await User.insert(user);
+                console.log('user created', user);
             }
                 
             const payload = {
+                id: user.id,
                 thirdPartyId,
                 provider
             }            
-
-            console.log('user', user);
-            
             const jwt: string = sign(payload, jwtSecretKey, { expiresIn: 3600 });
             return jwt;
         }

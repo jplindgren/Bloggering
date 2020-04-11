@@ -9,7 +9,7 @@ export class User extends BaseEntity {
     id: string;
 
     @Column()    
-    thirdPartyId: number;
+    thirdPartyId: string;
 
     @Column({ length: 100 })
     name: string;
@@ -29,9 +29,9 @@ export class User extends BaseEntity {
     @VersionColumn()
     version!: number;
 
-    static findByThirdPartyId(thirdPartyid: Number) : Promise<User> {        
+    static findByThirdPartyId(thirdPartyId: string) : Promise<User> {        
         return this.createQueryBuilder("user")
-            .where("user.thirdPartyId = :thirdPartyId", { thirdPartyid })            
+            .where("user.thirdPartyId = :thirdPartyId", { thirdPartyId })            
             .getOne();
     }
 }
