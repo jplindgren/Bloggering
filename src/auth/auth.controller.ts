@@ -1,5 +1,6 @@
 import { Controller, Get, UseGuards, Res, Req } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { User } from 'src/users/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -25,10 +26,19 @@ export class AuthController {
             res.status(400).json({ errorMessage: 'Authentication failed' });
     }
 
-    @Get('protected')
+    @Get('me')
     @UseGuards(AuthGuard('jwt'))
-    protectedResource()
+    async loggerUserInfo(@Req() req)
     {
-        return 'JWT is working!';
+        const userId = req['user'].id;
+        var user = await User.findOneOrFail(userId);
+        return {
+            name: user.name,
+            email: user.email,
+            isActive: user.isActive,
+            createdAt: user.createdAt,
+            updatedAt: user.UpdatedAt,
+            version: user.version,
+        }
     }
 }

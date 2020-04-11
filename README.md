@@ -57,19 +57,52 @@ $ npm run test
 $ npm run test:e2e
 
 # test coverage
-$ npm run test:cov
-```
+$ npm run test:cov``
 
-## Support
+# database (Postgres with docker)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+As we want to follow using docker, here you will find how to configure the Postgres database with docker for our local development environment. Make sure that you have the docker installed and running in your machine.
 
-## Stay in touch
+First we need to run the following command to get the postgres image .
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+    docker pull postgres
+
+After finishing the image download, we will run the command:
+
+    docker run --name postgres -e POSTGRES_PASSWORD={password} -d -p 5432:5432 postgres
+
+It will create and start the postgres docker container, using the default user **postgres** and the password **12345678a** to connect to the database.
+Now we will create the database to our application. 
+
+Run the following command to open the container bash terminal.
+
+    docker exec -it postgres /bin/bash
+
+Now inside the container, lets run the command:
+
+    psql -h localhost -U postgres -W
+
+After running the previous command the database password will be asked. Type the password in the terminal.
+
+You will receive a feedback in the terminal. Now you are connected to the postgres. Now we just need to create the database. Just run the following command:
+
+     create database blogguering;
+    
+Now you can list all databases to check
+
+     \list (\l)
+
+And connect to the new database
+
+    \connect (\c) bloggering
+
+Database default configuration is kept at config/orm.config.ts. We can override settings env variables (not versioned):
+    TYPEORM_HOST
+    TYPEORM_PORT
+    TYPEORM_USERNAME
+    TYPEORM_PASSWORD
+    TYPEORM_DATABASE
 
 ## License
 
-  Nest is [MIT licensed](LICENSE).
+  Nest and this project are [MIT licensed](LICENSE).

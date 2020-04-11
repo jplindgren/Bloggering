@@ -4,7 +4,6 @@ import { Strategy } from "passport-google-oauth20";
 import { AuthService, Provider } from "./auth.service";
 import { OAuth2ConfigService } from './../config/auth/configuration.service';
 
-
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google')
 {    
@@ -15,7 +14,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google')
             clientSecret: oAuth2ConfigService.clientSecret,
             callbackURL : oAuth2ConfigService.callbackURL,
             passReqToCallback: true,
-            scope: ['profile']
+            scope: ['profile', 'email']
         });        
     }
 
@@ -23,12 +22,10 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google')
     async validate(request: any, accessToken: string, refreshToken: string, profile, done: Function)
     {
         try
-        {
-            console.log(profile);
-
+        {            
             //generate jwt key
             //node -e require('crypto').randomBytes(256).toString('base64')
-            const jwt: string = await this.authService.validateOAuthLogin(profile.id, Provider.GOOGLE, this.oAuth2ConfigService.jwtSecret);
+            const jwt: string = await this.authService.validateOAuthLogin(profile, Provider.GOOGLE, this.oAuth2ConfigService.jwtSecret);
             const user = 
             {
                 jwt

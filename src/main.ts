@@ -6,7 +6,7 @@ import { AppConfigService } from './config/app/configuration.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe()); // Makes use of class-validate to sanitize data entering the API
+  app.useGlobalPipes(new ValidationPipe()); // Makes use of class-validate to sanitize data entering the API  
 
   // Creates Swagger documentation and OpenAPI console on the root path (http://localhost:{port})
   const swaggerOptions = new DocumentBuilder()

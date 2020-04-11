@@ -1,23 +1,22 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
-import { Entity, Column, PrimaryGeneratedColumn  } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity  } from 'typeorm';
 
-@Entity()
-export class Post {    
-    constructor(id: number, authorId: string, title: string, content:string) {
+export class Post{
+    constructor(id: number, authorId: string, title: string, content:string) {        
         this.id = id;
         this.authorId = authorId;
         this.title = title;
         this.content = content;
     }
 
-    @ApiProperty() // used to generate Swagger documentation that `Post` model contains id of type number
+    @ApiProperty() // used to generate Swagger documentation that `Post` model contains id of type number    
     id: number;
 
-    @ApiProperty()
+    @ApiProperty()    
     authorId: string;
 
-    @ApiProperty()
+    @ApiProperty()    
     title: string;
 
     @ApiProperty()
