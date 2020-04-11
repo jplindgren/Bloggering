@@ -14,7 +14,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google')
             clientSecret: oAuth2ConfigService.clientSecret,
             callbackURL : oAuth2ConfigService.callbackURL,
             passReqToCallback: true,
-            scope: ['profile']
+            scope: ['profile', 'email']
         });        
     }
 
@@ -22,8 +22,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google')
     async validate(request: any, accessToken: string, refreshToken: string, profile, done: Function)
     {
         try
-        {
-            console.log('google strategy', profile);
+        {            
             //generate jwt key
             //node -e require('crypto').randomBytes(256).toString('base64')
             const jwt: string = await this.authService.validateOAuthLogin(profile, Provider.GOOGLE, this.oAuth2ConfigService.jwtSecret);
