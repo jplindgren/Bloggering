@@ -1,34 +1,51 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity  } from 'typeorm';
+import {
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    BaseEntity,
+    ManyToOne,
+    JoinColumn,
+} from 'typeorm';
+import { User } from 'src/users/user.entity';
 
-export class Post{
-    constructor(id: number, authorId: string, title: string, content:string) {        
-        this.id = id;
+@Entity()
+export class Post extends BaseEntity {
+    constructor(authorId: string, title: string, content: string) {
+        super();
         this.authorId = authorId;
         this.title = title;
         this.content = content;
     }
 
-    @ApiProperty() // used to generate Swagger documentation that `Post` model contains id of type number    
-    id: number;
+    @ApiProperty() // used to generate Swagger documentation that `Post` model contains id of type number
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
-    @ApiProperty()    
+    @Column({ type: 'uuid', nullable: true })
     authorId: string;
 
-    @ApiProperty()    
+    @ApiProperty()
+    @ManyToOne(type => User)
+    @JoinColumn({ name: 'authorId' })
+    author: User;
+
+    @ApiProperty()
+    @Column('varchar', { length: 255 })
     title: string;
 
     @ApiProperty()
+    @Column('text')
     content: string;
 }
 
-export class PostDto{
+export class PostDto {
     @ApiProperty()
     @IsNotEmpty()
-    title: string
+    title: string;
 
     @ApiProperty()
     @IsNotEmpty()
-    content: string
+    content: string;
 }
