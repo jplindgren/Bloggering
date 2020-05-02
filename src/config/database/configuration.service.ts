@@ -4,7 +4,7 @@ import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 
 @Injectable()
 export class OrmConfigService implements TypeOrmOptionsFactory {
-    constructor(private configService: ConfigService) {}
+    constructor(private configService: ConfigService) { }
 
     createTypeOrmOptions(): TypeOrmModuleOptions {
         const type: any = this.configService.get<string>('orm.type');

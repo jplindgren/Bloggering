@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, Patch, UseGuards, HttpCode, Req } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, UseGuards, HttpCode, Req } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Post as BlogPost, PostDto } from './post.entity';
@@ -6,7 +6,7 @@ import { PostsService } from './posts.service';
 
 @Controller('posts')
 export class PostsController {
-    constructor(private readonly postsService: PostsService) {}
+    constructor(private readonly postsService: PostsService) { }
 
     @Get()
     @ApiResponse({ type: BlogPost, status: 200, isArray: true }) // for Swagger documentation: API returns an array of Post models

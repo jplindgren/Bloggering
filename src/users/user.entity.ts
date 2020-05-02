@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, PrimaryColumn, Unique, CreateDateColumn, UpdateDateColumn, VersionColumn, Index, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, Unique, CreateDateColumn, UpdateDateColumn, VersionColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
 @Unique(['email'])
@@ -8,7 +8,7 @@ export class User extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()    
+    @Column()
     thirdPartyId: string;
 
     @Column({ length: 100 })
@@ -20,18 +20,18 @@ export class User extends BaseEntity {
     @Column()
     isActive: boolean;
 
-    @CreateDateColumn({ name: 'created_at'})
+    @CreateDateColumn({ name: 'created_at' })
     createdAt!: Date;
 
-    @UpdateDateColumn({ name: 'updated_at'})
+    @UpdateDateColumn({ name: 'updated_at' })
     UpdatedAt!: Date;
 
     @VersionColumn()
     version!: number;
 
-    static findByThirdPartyId(thirdPartyId: string) : Promise<User> {        
+    static findByThirdPartyId(thirdPartyId: string): Promise<User> {
         return this.createQueryBuilder("user")
-            .where("user.thirdPartyId = :thirdPartyId", { thirdPartyId })            
+            .where("user.thirdPartyId = :thirdPartyId", { thirdPartyId })
             .getOne();
     }
 }
