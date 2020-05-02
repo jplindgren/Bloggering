@@ -31,7 +31,7 @@ export class AuthController {
     async loggerUserInfo(@Req() req)
     {
         const userId = req['user'].id;
-        var user = await User.findOneOrFail(userId);
+        const user = await User.findOneOrFail(userId);
         return {
             name: user.name,
             email: user.email,

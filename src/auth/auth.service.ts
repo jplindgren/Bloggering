@@ -2,25 +2,19 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { sign } from 'jsonwebtoken';
 import { User } from 'src/users/user.entity';
 
-export enum Provider
-{
+export enum Provider {
     GOOGLE = 'google'
 }
 
 @Injectable()
 export class AuthService {
-    constructor(/*private readonly usersService: UsersService*/) {
-    };
-
-    async validateOAuthLogin(profile: any, provider: Provider, jwtSecretKey: string): Promise<string>
-    {        
-        try 
-        {
+    async validateOAuthLogin(profile: any, provider: Provider, jwtSecretKey: string): Promise<string> {
+        try {
             // to register the user using their thirdPartyId (in this case their googleId)
             const thirdPartyId = profile.id;
-            
+
             let user: User = await User.findByThirdPartyId(thirdPartyId);
-            if (!user){
+            if (!user) {
                 user = new User();
                 user.isActive = true;
                 user.email = profile.emails
@@ -31,17 +25,16 @@ export class AuthService {
                 await User.insert(user);
                 console.log('user created', user);
             }
-                
+
             const payload = {
                 id: user.id,
                 thirdPartyId,
                 provider
-            }            
+            }
             const jwt: string = sign(payload, jwtSecretKey, { expiresIn: 3600 });
             return jwt;
         }
-        catch (err)
-        {
+        catch (err) {
             throw new InternalServerErrorException('validateOAuthLogin', err.message);
         }
     }

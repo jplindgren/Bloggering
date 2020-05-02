@@ -27,7 +27,7 @@ export class Post extends BaseEntity {
     authorId: string;
 
     @ApiProperty()
-    @ManyToOne(type => User)
+    @ManyToOne(() => User)
     @JoinColumn({ name: 'authorId' })
     author: User;
 
