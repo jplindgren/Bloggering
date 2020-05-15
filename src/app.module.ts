@@ -23,7 +23,7 @@ const controllers =
       useClass: OrmConfigService
     })],
   controllers: controllers,
-  providers: [AppService],
+  providers: [AppService]
 })
 
 export class AppModule implements NestModule {

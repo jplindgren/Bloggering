@@ -12,9 +12,9 @@ import { User } from 'src/users/user.entity';
 
 @Entity()
 export class Post extends BaseEntity {
-    constructor(authorId: string, title: string, content: string) {
+    constructor(author: User, title: string, content: string) {
         super();
-        this.authorId = authorId;
+        this.author = author;
         this.title = title;
         this.content = content;
     }
@@ -23,12 +23,9 @@ export class Post extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column({ type: 'uuid', nullable: true })
-    authorId: string;
-
     @ApiProperty()
-    @ManyToOne(() => User)
-    @JoinColumn({ name: 'authorId' })
+    @ManyToOne(type => User, { eager: true })
+    @JoinColumn({ name: 'authorId', referencedColumnName: 'id' })
     author: User;
 
     @ApiProperty()
@@ -38,6 +35,19 @@ export class Post extends BaseEntity {
     @ApiProperty()
     @Column('text')
     content: string;
+
+    static indexName() {
+        return Post.name.toLowerCase();
+    }
+
+    toIndex() {
+        return {
+            id: this.id,
+            author: this.author.name,
+            title: this.title,
+            content: this.content
+        }
+    }
 }
 
 export class PostDto {

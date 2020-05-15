@@ -28,7 +28,7 @@ export class AuthService {
 
             const payload = {
                 id: user.id,
-                thirdPartyId,
+                entity: user,
                 provider
             }
             const jwt: string = sign(payload, jwtSecretKey, { expiresIn: 3600 });

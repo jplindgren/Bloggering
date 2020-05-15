@@ -1,6 +1,25 @@
 version: '3.7'
 
 services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
+    container_name: ${ELASTIC_SEARCH_HOST}
+    environment:
+        - bootstrap.memory_lock=true
+        - discovery.type=single-node
+        - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+        - cluster.routing.allocation.disk.threshold_enabled=false
+    ulimits:
+        memlock:
+            soft: -1
+            hard: -1
+    volumes:
+      - esdata01:/var/lib/elasticsearch/data
+    ports:
+      - ${ELASTIC_SEARCH_PORT}:${ELASTIC_SEARCH_PORT}
+    networks:
+      - webnet
+
   postgres:
     container_name: ${TYPEORM_HOST}
     image: postgres:12-alpine
@@ -18,6 +37,7 @@ services:
       - ${TYPEORM_PORT}:${TYPEORM_PORT}
     volumes:
       - pgdata:/var/lib/postgresql/data
+
   main:
     container_name: api
     restart: unless-stopped
@@ -37,7 +57,10 @@ services:
       - webnet
     depends_on:
       - postgres
+      - elasticsearch
+
 networks:
   webnet:
 volumes:
   pgdata:
+  esdata01:

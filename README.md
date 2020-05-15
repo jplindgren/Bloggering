@@ -111,6 +111,8 @@ See [Adding Docker with multi-stage build](https://blog.logrocket.com/containeri
 docker-compose --project-name bloggering up --build --renew-anon-volumes --detach
 (or)
 docker-compose -p bloggering up --build -V -d
+(after)
+docker-compose up --build -V
 
 docker-compose -p bloggering down
 ```
