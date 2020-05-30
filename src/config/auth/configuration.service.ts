@@ -1,14 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-/**
- * Service dealing with app config based operations.
- *
- * @class
- */
+import { JwtModuleOptions, JwtOptionsFactory } from '@nestjs/jwt';
+
 @Injectable()
 export class OAuth2ConfigService {
-  constructor(private configService: ConfigService) {}
-  
+  constructor(private configService: ConfigService) { }
+
   get clientId(): string {
     return this.configService.get<string>('oauth2.clientId');
   }
@@ -19,6 +16,17 @@ export class OAuth2ConfigService {
     return this.configService.get<string>('oauth2.jwtSecret');
   }
   get callbackURL(): string {
-   return this.configService.get<string>('oauth2.callbackURL');
+    return this.configService.get<string>('oauth2.callbackURL');
+  }
+}
+
+@Injectable()
+export class JwtConfigService implements JwtOptionsFactory {
+  constructor(private configService: ConfigService) { }
+  createJwtOptions(): JwtModuleOptions {
+    return {
+      secret: this.configService.get<string>('oauth2.jwtSecret'),
+      signOptions: { expiresIn: '3600s' }
+    };
   }
 }
