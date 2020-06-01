@@ -6,35 +6,27 @@ import { OAuth2ConfigService } from './../config/auth/configuration.service';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google')
-{    
-    constructor(private readonly authService: AuthService, private readonly oAuth2ConfigService: OAuth2ConfigService)
-    {        
+{
+    constructor(private readonly authService: AuthService, private readonly oAuth2ConfigService: OAuth2ConfigService) {
         super({
-            clientID    : oAuth2ConfigService.clientId,
+            clientID: oAuth2ConfigService.clientId,
             clientSecret: oAuth2ConfigService.clientSecret,
-            callbackURL : oAuth2ConfigService.callbackURL,
+            callbackURL: oAuth2ConfigService.callbackURL,
             passReqToCallback: true,
             scope: ['profile', 'email']
-        });        
+        });
     }
 
+    async validate(request: any, accessToken: string, refreshToken: string, profile, done: Function) {
+        try {
+            const email = profile.emails
+                .filter(x => x.verified)
+                .map(x => x.value)[0];
 
-    async validate(request: any, accessToken: string, refreshToken: string, profile, done: Function)
-    {
-        try
-        {            
-            //generate jwt key
-            //node -e require('crypto').randomBytes(256).toString('base64')
-            const jwt: string = await this.authService.validateOAuthLogin(profile, Provider.GOOGLE, this.oAuth2ConfigService.jwtSecret);
-            const user = 
-            {
-                jwt
-            }
-
-            done(null, user);
+            const jwt: string = await this.authService.validateOAuthLogin(email, profile.displayName, profile.id, Provider.GOOGLE);
+            done(null, { jwt });
         }
-        catch(err)
-        {
+        catch (err) {
             console.log(err)
             done(err, false);
         }

@@ -118,28 +118,10 @@ docker-compose -p bloggering down
 ```
 Once you rename the project directory to the app you want to build, you can drop the project flag for 'bloggering' in the example above. It just names the network to be consistent with the container names from docker-compose.yml.
 
-## Running the Nest app locally (not in a container)
-
-First, comment out the api service in docker-compose.yml file and restart other services, or just issue this command to the Docker host (with container name):
+generate jwt key
 ```bash
-docker stop api
+node -e require('crypto').randomBytes(256).toString('base64')
 ```
-Then:
-```bash
-# download node_modules (directory in .gitignore)
-$ npm install
-
-# watch mode (TypeScript, main.ts)
-$ npm start:local
-
-# build mode (JavaScript, main.js)
-$ npm build
-$ npm start:dev
-```
-
-
-
-https://blog.logrocket.com/containerized-development-nestjs-docker/
 
 ## License
 

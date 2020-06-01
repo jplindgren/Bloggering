@@ -31,7 +31,7 @@ export class PostsController {
     @UseGuards(AuthGuard('jwt'))
     @HttpCode(200)
     @ApiResponse({ status: 200 })
-    async create(@Body() newPost: PostDto, @LoggedUser("entity") user) {
+    async create(@Body() newPost: PostDto, @LoggedUser() user) {
         const newPostId = await this.postsService.createPost(newPost.title, user, newPost.content);
         return { id: newPostId };
     }
